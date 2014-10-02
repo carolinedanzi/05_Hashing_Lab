@@ -9,7 +9,7 @@
  * an unsigned long (which is the hash value)
  *
  * For example, you might do:
- * unsigned long hash(char c){ return 10*((unsigned long)c)%13; }
+ * unsigned long hash(char c){ return 10*((unsigned long)c)%backingArraySize; }
  * HashTable<char,int> mySillyTable;
  *
  * If you don't define an appropriate hash function, the class won't compile.
@@ -77,4 +77,57 @@ private:
   unsigned long backingArraySize;
 };
 
-#include "HashTable.ipp"
+//You will need this so you can make a string to throw in
+// remove
+#include <string>
+
+template <class Key, class T>
+HashTable<Key,T>::HashTable(){
+  //TODO
+}
+
+template <class Key, class T>
+HashTable<Key,T>::~HashTable() {
+  //TODO
+}
+
+template <class Key, class T>
+unsigned long HashTable<Key,T>::calcIndex(Key k){
+  //TODO
+  return numItems; //This indicates failure, since it is an impossible value
+}
+
+template <class Key, class T>
+void HashTable<Key,T>::add(Key k, T x){
+  //TODO
+}
+
+template <class Key, class T>
+void HashTable<Key,T>::remove(Key k){
+  //TODO
+}
+
+template <class Key, class T>
+T HashTable<Key,T>::find(Key k){
+  //TODO
+  T dummy;
+  return dummy;
+}
+
+template <class Key, class T>
+bool HashTable<Key,T>::keyExists(Key k){
+  //TODO
+  return false;
+}
+
+template <class Key, class T>
+unsigned long HashTable<Key,T>::size(){
+  //TODO
+  return 0;
+}
+
+template <class Key, class T>
+void HashTable<Key,T>::grow(){
+  //TODO
+}
+

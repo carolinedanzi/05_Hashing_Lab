@@ -83,8 +83,10 @@ private:
 
 template <class Key, class T>
 HashTable<Key,T>::HashTable(){
+	// The size of the backing array should be prime
 	backingArraySize = hashPrimes[0];
 	backingArray = new HashRecord[backingArraySize];
+	// There are no items or isDel elements yet
 	numItems = 0;
 	numRemoved = 0;
 }
@@ -96,8 +98,9 @@ HashTable<Key,T>::~HashTable() {
 
 template <class Key, class T>
 unsigned long HashTable<Key,T>::calcIndex(Key k){
-  //TODO
-  return numItems; //This indicates failure, since it is an impossible value
+	unsigned long index = hash(k) % backingArraySize;
+	return index;
+  //return numItems; //This indicates failure, since it is an impossible value
 }
 
 template <class Key, class T>
@@ -112,9 +115,15 @@ void HashTable<Key,T>::remove(Key k){
 
 template <class Key, class T>
 T HashTable<Key,T>::find(Key k){
-  //TODO
-  T dummy;
-  return dummy;
+	unsigned long index = hash(k);
+	// While there is either an element or isDel item 
+	// at the index, keep looking
+	while (backingArray[index]->isNull == false){
+		if (backingArray[index]->isDel == false && backingArray[index] == k)
+			return backingArray[index];
+		i = (i + 1) % backingArraySize;
+	}
+	return null;
 }
 
 template <class Key, class T>

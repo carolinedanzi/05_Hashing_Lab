@@ -142,55 +142,25 @@ void HashTable<Key,T>::remove(Key k){
 
 template <class Key, class T>
 T HashTable<Key,T>::find(Key k){
-	// If the key does not exists, throw an exception
+	// If the key does not exist, throw an exception
 	if(keyExists(k) == false){
 		throw std::string("In find, the key does not exist");
 	}else{
+		// Otherwise, return the data for the item with that key
 		return backingArray[calcIndex(k)].x;
 	}
-
-
-	unsigned long index = calcIndex(k);
-	// While there is either an element or isDel item 
-	// at the index, keep looking
-	while (backingArray[index].isNull == false){
-		// If the element contains the proper key and has not been deleted,
-		// return the element's data
-		if (backingArray[index].isDel == false && backingArray[index].k == k)
-			return backingArray[index].x;
-		// increment the index; make sure to keep it in the range
-		// of the size of the backing array
-		index = (index + 1) % backingArraySize;
-	}
-	// Return null if we either reached the end of the list of elements
-	// or the element was deleted
-	return NULL;
 }
 
 template <class Key, class T>
 bool HashTable<Key,T>::keyExists(Key k){
+	// Calc index will return the location of where
+	// the item should be (or should go)
 	unsigned long index = calcIndex(k);
-
-	if(backingArray[index].k == k)
+	// If the item is there, the key exists so return true
+	if (backingArray[index].k == k)
 		return true;
-	else
-		return false;
-	
-
-  unsigned long properIndex = hash(k) % backingArraySize;
-
-  // If the item is in the first spot, the key exists
-  // This was a problem with calcIndex - if the item with the proper
-  // index was where it should be, it would return the proper index,
-  // thus messing up the next conditional statement in this method
-  if(backingArray[properIndex].isDel == false && backingArray[properIndex].k == k)
-	  return true;
-  // If the proper index for the key matches what calcIndex returns,
-  // the key does not exist in the hash table
-  if(properIndex == calcIndex(k))
-	  return false;
-  // Otherwise, return true - the key does exist in the array 
-  return true;
+	// Otherwise, the key does not exist
+	return false;
 }
 
 template <class Key, class T>

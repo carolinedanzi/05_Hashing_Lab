@@ -150,6 +150,7 @@ void HashTable<Key, T>::add(Key k, T x){
 		grow();
 
 	unsigned long index = calcIndex(k);
+	std::cout << "The index of the key in add: " << index << std::endl;
 	HashRecord addLocation = backingArray[index];
 	if (addLocation.isDel == true){
 		numRemoved--;
@@ -159,6 +160,8 @@ void HashTable<Key, T>::add(Key k, T x){
 	addLocation.isNull = false;
 	addLocation.isDel = false;
 	numItems++;
+	std::cout << "key added: " << addLocation.k << std::endl;
+	std::cout << "Current state of isNull: " << addLocation.isNull << std::endl;
 }
 
 template <class Key, class T>
@@ -175,13 +178,26 @@ void HashTable<Key, T>::remove(Key k){
 
 template <class Key, class T>
 T HashTable<Key, T>::find(Key k){
+	unsigned long index = hash(k) % backingArraySize;
+
+	std::cout << "The index of the key in find: " << index << std::endl;
+
+	std::cout << "at the index location, k = " << backingArray[index].k << std::endl;
+	while (backingArray[index].isNull == false){
+		if (backingArray[index].k == k && backingArray[index].isDel == false)
+			return backingArray[index].x;
+		index = (index + 1) % backingArraySize;
+	}
+
+	throw std::string("In find, the key does not exist.");
+
 	// If the key does not exist, throw an exception
-	if (keyExists(k) == false)
-		throw std::string("In find, the key does not exist");
+	//if (keyExists(k) == false)
+	//	throw std::string("In find, the key does not exist");
 
 	// Otherwise, return the data for the item with that key
-	unsigned long index = calcIndex(k);
-	return backingArray[index].x;
+	//unsigned long index = calcIndex(k);
+	//return backingArray[index].x;
 }
 
 template <class Key, class T>

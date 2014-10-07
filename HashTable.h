@@ -101,10 +101,27 @@ HashTable<Key, T>::~HashTable() {
 	//TODO
 }
 
+// Goal:  Return an index where the item should go
+// (or where it already is)
 template <class Key, class T>
 unsigned long HashTable<Key, T>::calcIndex(Key k){
 	// Caculate the proper index - the one where the item should be
 	unsigned long properIndex = hash(k) % backingArraySize;
+
+	if (backingArray[properIndex].k == k)
+		return properIndex;
+	else{
+		while (backingArray[properIndex].isNull == false){
+			// I think this should search through and
+			// either find where the item is and return
+			// that index, or return the next available index
+		}
+	}
+
+
+
+
+
 
 	// As long as there is an item at the index (starting with the 
 	// proper index), keep looking until finding an empty spot

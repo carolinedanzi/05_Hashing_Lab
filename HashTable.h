@@ -102,14 +102,37 @@ HashTable<Key,T>::~HashTable() {
 
 template <class Key, class T>
 unsigned long HashTable<Key,T>::calcIndex(Key k){
-	unsigned long index = hash(k) % backingArraySize;
-	return index;
-  //return numItems; //This indicates failure, since it is an impossible value
+	// Caculate the proper index - the one where the item shoudl be
+	unsigned long properIndex =  hash(k) % backingArraySize;
+
+	// As long as there is an item at the index (starting with the 
+	// proper index), keep looking until finding an empty spot
+	unsigned long index = properIndex;
+	while(backingArray[index].isNull == false){
+		// If there is an item that has not been deleted that 
+		// matches the key, return that index instead of the proper index
+		if(backingArray[index].k == k && backingArray[index].isDel == false)
+			return index;
+		index = (index + 1) % backingArraySize;
+	}
+	// If there was an empty spot at the proper index or
+	// the item was never found, return the proper index for that item
+	return properIndex;
 }
 
 template <class Key, class T>
 void HashTable<Key,T>::add(Key k, T x){
-  //TODO
+	if(keyExists(k))
+		return;
+	if(numItems + 1 > backingArraySize / 2)
+		grow();
+
+	unsigned long index = calcIndex(k);
+	while(backingArray[index].isNull == false){
+		index = (index+1)%backingArraySize;
+	}
+	if(backingArray[index].isDel == true){}
+
 }
 
 template <class Key, class T>

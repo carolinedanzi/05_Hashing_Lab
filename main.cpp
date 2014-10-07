@@ -178,8 +178,8 @@ void testGrow(){
 //A simple main function which creates a list, and tests it.
 int main(){
   testCtor();
-  testBasicMethods();
-  testGrow();
+  //testBasicMethods();
+  //testGrow();
 
   return 0;
 }

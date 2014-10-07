@@ -77,6 +77,10 @@ private:
   unsigned long backingArraySize;
 };
 
+
+/*
+* ORIGINALITY STATEMENT
+*/
 //You will need this so you can make a string to throw in
 // remove
 #include <string>
@@ -115,10 +119,11 @@ void HashTable<Key,T>::remove(Key k){
 
 template <class Key, class T>
 T HashTable<Key,T>::find(Key k){
-	unsigned long index = hash(k);
+	unsigned long index = calcIndex(k);
 	// While there is either an element or isDel item 
 	// at the index, keep looking
-	while (backingArray[index]->isNull == false){
+	HashRecord* spot = backingArray[index];
+	while (spot->isNull == false){
 		if (backingArray[index]->isDel == false && backingArray[index] == k)
 			return backingArray[index];
 		i = (i + 1) % backingArraySize;

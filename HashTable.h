@@ -79,7 +79,8 @@ public:
 
 
 /*
-* ORIGINALITY STATEMENT
+* During class I worked with Justin Reed and Brandon Wilson.
+* We discussed the logic behind keyExists, find, and calcIndex.
 */
 //You will need this so you can make a string to throw in
 // remove
@@ -161,7 +162,8 @@ T HashTable<Key, T>::find(Key k){
 		throw std::string("In find, the key does not exist");
 
 	// Otherwise, return the data for the item with that key
-	return backingArray[calcIndex(k)].x;
+	//return backingArray[calcIndex(k)].x;
+	return backingArray[0].x;
 }
 
 template <class Key, class T>

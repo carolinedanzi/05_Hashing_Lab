@@ -98,7 +98,8 @@ HashTable<Key, T>::HashTable(){
 
 template <class Key, class T>
 HashTable<Key, T>::~HashTable() {
-	//TODO
+	delete[] backingArray;
+	backingArray = NULL;
 }
 
 // Goal:  Return an index where the item should go
@@ -116,26 +117,6 @@ unsigned long HashTable<Key, T>::calcIndex(Key k){
 		index = (index + 1) % backingArraySize;
 	}
 	return index;
-
-
-
-
-	//// Caculate the proper index - the one where the item should be
-	//unsigned long properIndex = hash(k) % backingArraySize;
-
-	//// As long as there is an item at the index (starting with the 
-	//// proper index), keep looking until finding an empty spot
-	//unsigned long index = properIndex;
-	//while (backingArray[index].isNull == false){
-	//	// If there is an item that has not been deleted that 
-	//	// matches the key, return that index instead of the proper index
-	//	if (backingArray[index].k == k && backingArray[index].isDel == false)
-	//		return index;
-	//	index = (index + 1) % backingArraySize;
-	//}
-	//// If there was an empty spot at the proper index or
-	//// the item was never found, return the proper index for that item
-	//return properIndex;
 }
 
 template <class Key, class T>
@@ -169,28 +150,19 @@ void HashTable<Key, T>::remove(Key k){
 	else{
 		unsigned long index = calcIndex(k);
 		backingArray[index].isDel = true;
+		numItems--;
+		numRemoved++;
 	}
 }
 
 template <class Key, class T>
 T HashTable<Key, T>::find(Key k){
-	unsigned long index = hash(k) % backingArraySize;
-
-	while (backingArray[index].isNull == false){
-		if (backingArray[index].k == k && backingArray[index].isDel == false)
-			return backingArray[index].x;
-		index = (index + 1) % backingArraySize;
-	}
-
-	throw std::string("In find, the key does not exist.");
-
-	// If the key does not exist, throw an exception
-	//if (keyExists(k) == false)
-	//	throw std::string("In find, the key does not exist");
+	if (keyExists(k) == false)
+		throw std::string("In find, the key does not exist");
 
 	// Otherwise, return the data for the item with that key
-	//unsigned long index = calcIndex(k);
-	//return backingArray[index].x;
+	unsigned long index = calcIndex(k);
+	return backingArray[index].x;
 }
 
 template <class Key, class T>

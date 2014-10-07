@@ -122,18 +122,34 @@ T HashTable<Key,T>::find(Key k){
 	unsigned long index = calcIndex(k);
 	// While there is either an element or isDel item 
 	// at the index, keep looking
-	HashRecord* spot = backingArray[index];
-	while (spot->isNull == false){
-		if (backingArray[index]->isDel == false && backingArray[index] == k)
-			return backingArray[index];
-		i = (i + 1) % backingArraySize;
+	while (backingArray[index].isNull == false){
+		// If the element contains the proper key and has not been deleted,
+		// return the element's data
+		if (backingArray[index].isDel == false && backingArray[index].k == k)
+			return backingArray[index].x;
+		// increment the index; make sure to keep it in the range
+		// of the size of the backing array
+		index = (index + 1) % backingArraySize;
 	}
-	return null;
+	// Return null if we either reached the end of the list of elements
+	// or the element was deleted
+	return NULL;
 }
 
 template <class Key, class T>
 bool HashTable<Key,T>::keyExists(Key k){
-  //TODO
+  unsigned long index = calcIndex(k);
+
+  // As long as there is an element at the index,
+  // check if it is the correct key and is still 
+  // in use (not deleted); if yes, return true
+  // Otherwise, return false
+  while(backingArray[index].isNull == false){
+	  if(backingArray[index].k == k && backingArray[index].isDel == false)
+		  return true;
+	  index = (index+1) % backingArraySize;
+  }
+
   return false;
 }
 

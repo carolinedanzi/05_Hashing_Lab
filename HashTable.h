@@ -142,6 +142,14 @@ void HashTable<Key,T>::remove(Key k){
 
 template <class Key, class T>
 T HashTable<Key,T>::find(Key k){
+	// If the key does not exists, throw an exception
+	if(keyExists(k) == false){
+		throw std::string("In find, the key does not exist");
+	}else{
+		return backingArray[calcIndex(k)].x;
+	}
+
+
 	unsigned long index = calcIndex(k);
 	// While there is either an element or isDel item 
 	// at the index, keep looking
@@ -161,6 +169,14 @@ T HashTable<Key,T>::find(Key k){
 
 template <class Key, class T>
 bool HashTable<Key,T>::keyExists(Key k){
+	unsigned long index = calcIndex(k);
+
+	if(backingArray[index].k == k)
+		return true;
+	else
+		return false;
+	
+
   unsigned long properIndex = hash(k) % backingArraySize;
 
   // If the item is in the first spot, the key exists

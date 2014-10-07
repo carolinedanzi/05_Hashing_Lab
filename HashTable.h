@@ -102,7 +102,7 @@ HashTable<Key,T>::~HashTable() {
 
 template <class Key, class T>
 unsigned long HashTable<Key,T>::calcIndex(Key k){
-	// Caculate the proper index - the one where the item shoudl be
+	// Caculate the proper index - the one where the item should be
 	unsigned long properIndex =  hash(k) % backingArraySize;
 
 	// As long as there is an item at the index (starting with the 
@@ -161,19 +161,20 @@ T HashTable<Key,T>::find(Key k){
 
 template <class Key, class T>
 bool HashTable<Key,T>::keyExists(Key k){
-  unsigned long index = calcIndex(k);
+  unsigned long properIndex = hash(k) % backingArraySize;
 
-  // As long as there is an element at the index,
-  // check if it is the correct key and is still 
-  // in use (not deleted); if yes, return true
-  // Otherwise, return false
-  while(backingArray[index].isNull == false){
-	  if(backingArray[index].k == k && backingArray[index].isDel == false)
-		  return true;
-	  index = (index+1) % backingArraySize;
-  }
-
-  return false;
+  // If the item is in the first spot, the key exists
+  // This was a problem with calcIndex - if the item with the proper
+  // index was where it should be, it would return the proper index,
+  // thus messing up the next conditional statement in this method
+  if(backingArray[properIndex].isDel == false && backingArray[properIndex].k == k)
+	  return true;
+  // If the proper index for the key matches what calcIndex returns,
+  // the key does not exist in the hash table
+  if(properIndex == calcIndex(k))
+	  return false;
+  // Otherwise, return true - the key does exist in the array 
+  return true;
 }
 
 template <class Key, class T>

@@ -159,7 +159,8 @@ template <class Key, class T>
 T HashTable<Key, T>::find(Key k){
 	// If the key does not exist, throw an exception
 	if (keyExists(k) == false)
-		throw std::string("In find, the key does not exist");
+		//throw std::string("In find, the key does not exist");
+		return NULL;
 
 	// Otherwise, return the data for the item with that key
 	//return backingArray[calcIndex(k)].x;

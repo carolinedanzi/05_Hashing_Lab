@@ -126,19 +126,21 @@ void HashTable<Key, T>::add(Key k, T x){
 	if (keyExists(k))
 		return;
 	// If adding another item pushes the number of items
-	// over half the size of the bakcing array, grow the array
+	// over half the size of the backing array, grow the array
 	if (numItems + 1 > backingArraySize / 2)
 		grow();
-
-	unsigned long index = calcIndex(k);
-	if (backingArray[index].isDel == true){
-		numRemoved--;
+	else{
+		unsigned long index = calcIndex(k);
+		if (backingArray[index].isDel == true){
+			numRemoved--;
+		}
+		backingArray[index].k = k;
+		backingArray[index].x = x;
+		backingArray[index].isNull = false;
+		backingArray[index].isDel = false;
+		numItems++;
 	}
-	backingArray[index].k = k;
-	backingArray[index].x = x;
-	backingArray[index].isNull = false;
-	backingArray[index].isDel = false;
-	numItems++;
+
 }
 
 template <class Key, class T>

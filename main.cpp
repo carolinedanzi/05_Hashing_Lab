@@ -177,16 +177,8 @@ void testGrow(){
 
 //A simple main function which creates a list, and tests it.
 int main(){
-	HashTable<std::string, int> testArray;
-	testArray.add("emu", 3);
-	try{
-		testArray.find("emu");
-	}
-	catch (std::string s){
-		std::cout << "Caught: " << s << std::endl;
-	}
-  //testCtor();
-  //testBasicMethods();
+  testCtor();
+  testBasicMethods();
   //testGrow();
 
   return 0;

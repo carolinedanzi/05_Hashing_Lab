@@ -150,18 +150,14 @@ void HashTable<Key, T>::add(Key k, T x){
 		grow();
 
 	unsigned long index = calcIndex(k);
-	std::cout << "The index of the key in add: " << index << std::endl;
-	HashRecord addLocation = backingArray[index];
-	if (addLocation.isDel == true){
+	if (backingArray[index].isDel == true){
 		numRemoved--;
 	}
-	addLocation.k = k;
-	addLocation.x = x;
-	addLocation.isNull = false;
-	addLocation.isDel = false;
+	backingArray[index].k = k;
+	backingArray[index].x = x;
+	backingArray[index].isNull = false;
+	backingArray[index].isDel = false;
 	numItems++;
-	std::cout << "key added: " << addLocation.k << std::endl;
-	std::cout << "Current state of isNull: " << addLocation.isNull << std::endl;
 }
 
 template <class Key, class T>
@@ -180,9 +176,6 @@ template <class Key, class T>
 T HashTable<Key, T>::find(Key k){
 	unsigned long index = hash(k) % backingArraySize;
 
-	std::cout << "The index of the key in find: " << index << std::endl;
-
-	std::cout << "at the index location, k = " << backingArray[index].k << std::endl;
 	while (backingArray[index].isNull == false){
 		if (backingArray[index].k == k && backingArray[index].isDel == false)
 			return backingArray[index].x;

@@ -105,37 +105,37 @@ HashTable<Key, T>::~HashTable() {
 // (or where it already is)
 template <class Key, class T>
 unsigned long HashTable<Key, T>::calcIndex(Key k){
-	// Caculate the proper index - the one where the item should be
-	unsigned long properIndex = hash(k) % backingArraySize;
+	unsigned long index = hash(k) % backingArraySize;
 
-	if (backingArray[properIndex].k == k)
-		return properIndex;
-	else{
-		while (backingArray[properIndex].isNull == false){
-			// I think this should search through and
-			// either find where the item is and return
-			// that index, or return the next available index
-		}
-	}
-
-
-
-
-
-
-	// As long as there is an item at the index (starting with the 
-	// proper index), keep looking until finding an empty spot
-	unsigned long index = properIndex;
 	while (backingArray[index].isNull == false){
-		// If there is an item that has not been deleted that 
-		// matches the key, return that index instead of the proper index
-		if (backingArray[index].k == k && backingArray[index].isDel == false)
+		// I think this should search through and
+		// either find where the item is and return
+		// that index, or return the next available index
+		if (backingArray[index].k == k)
 			return index;
 		index = (index + 1) % backingArraySize;
 	}
-	// If there was an empty spot at the proper index or
-	// the item was never found, return the proper index for that item
-	return properIndex;
+	return index;
+
+
+
+
+	//// Caculate the proper index - the one where the item should be
+	//unsigned long properIndex = hash(k) % backingArraySize;
+
+	//// As long as there is an item at the index (starting with the 
+	//// proper index), keep looking until finding an empty spot
+	//unsigned long index = properIndex;
+	//while (backingArray[index].isNull == false){
+	//	// If there is an item that has not been deleted that 
+	//	// matches the key, return that index instead of the proper index
+	//	if (backingArray[index].k == k && backingArray[index].isDel == false)
+	//		return index;
+	//	index = (index + 1) % backingArraySize;
+	//}
+	//// If there was an empty spot at the proper index or
+	//// the item was never found, return the proper index for that item
+	//return properIndex;
 }
 
 template <class Key, class T>
@@ -150,13 +150,14 @@ void HashTable<Key, T>::add(Key k, T x){
 		grow();
 
 	unsigned long index = calcIndex(k);
-	if (backingArray[index].isDel == true){
+	HashRecord addLocation = backingArray[index];
+	if (addLocation.isDel == true){
 		numRemoved--;
 	}
-	backingArray[index].k = k;
-	backingArray[index].x = x;
-	backingArray[index].isNull = false;
-	backingArray[index].isDel = false;
+	addLocation.k = k;
+	addLocation.x = x;
+	addLocation.isNull = false;
+	addLocation.isDel = false;
 	numItems++;
 }
 
@@ -176,12 +177,11 @@ template <class Key, class T>
 T HashTable<Key, T>::find(Key k){
 	// If the key does not exist, throw an exception
 	if (keyExists(k) == false)
-		//throw std::string("In find, the key does not exist");
-		return NULL;
+		throw std::string("In find, the key does not exist");
 
 	// Otherwise, return the data for the item with that key
-	//return backingArray[calcIndex(k)].x;
-	return backingArray[0].x;
+	unsigned long index = calcIndex(k);
+	return backingArray[index].x;
 }
 
 template <class Key, class T>

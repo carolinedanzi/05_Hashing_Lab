@@ -155,13 +155,16 @@ void HashTable<Key, T>::add(Key k, T x){
 
 template <class Key, class T>
 void HashTable<Key, T>::remove(Key k){
+	// If there is no key, throw an exception.
 	if (keyExists(k) == false)
 		throw std::string("in remove, key does not exist");
-	if (numItems == 0)
-		throw std::string("Tried to remove when there are no items.");
 	else{
+		// Otherwise, calculate the index of where the key is
+		// Set the HashRecord isDel variable to true
 		unsigned long index = calcIndex(k);
 		backingArray[index].isDel = true;
+		// Decrease the number of items in the table, but
+		// increase the number of removed items
 		numItems--;
 		numRemoved++;
 	}

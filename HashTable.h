@@ -200,20 +200,44 @@ unsigned long HashTable<Key, T>::size(){
 
 template <class Key, class T>
 void HashTable<Key, T>::grow(){
+	//// Find the new prime size for the backing array
+	//unsigned long oldArraySize = backingArraySize;
+	//int i = 1;
+	//while (hashPrimes[i] < backingArraySize)
+	//	i++;
+	//backingArraySize = hashPrimes[i];
+
+	//// Make a new array
+	//HashRecord* newArray = new HashRecord[backingArraySize];
+	//
+	//// Copy over the items
+	//for (unsigned int i = 0; i < oldArraySize; i++){
+	//	if (backingArray[i].isNull == false && backingArray[i].isDel == false){
+	//		// Cannot calculate index this way because the backingArray variable is used
+	//		unsigned long index = calcIndex(backingArray[i].k);
+	//		newArray[index].k = backingArray[i].k;
+	//		newArray[index].x = backingArray[i].x;
+	//		newArray[index].isNull = false;
+	//		newArray[index].isDel = false;
+	//	}
+	//}
+	//// Delete the old array
+	//delete backingArray;
+	//backingArray = newArray;
+
 	// Find the new prime size for the backing array
-	unsigned long oldBackingArraySize = backingArraySize;
+	unsigned long oldArraySize = backingArraySize;
 	int i = 1;
-	while (hashPrimes[i] <= oldBackingArraySize){
-		backingArraySize = hashPrimes[i];
+	while (hashPrimes[i] <= oldArraySize)
 		i++;
-	}
+	backingArraySize = hashPrimes[i];
 
 	HashRecord* oldArray = backingArray;
 	// Create a new, bigger array to store the items
 	backingArray = new HashRecord[backingArraySize];
 
 	// Copy the items over into the new array
-	for (unsigned int i = 0; i < oldBackingArraySize; i++){
+	for (unsigned int i = 0; i < oldArraySize; i++){
 		if (oldArray[i].isNull == false && oldArray[i].isDel == false)
 			add(oldArray[i].k, oldArray[i].x);
 	}

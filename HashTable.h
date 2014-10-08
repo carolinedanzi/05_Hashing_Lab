@@ -89,7 +89,7 @@ public:
 template <class Key, class T>
 HashTable<Key, T>::HashTable(){
 	// The size of the backing array should be prime
-	backingArraySize = hashPrimes[0];
+	backingArraySize = NUM_HASH_PRIMES;
 	backingArray = new HashRecord[backingArraySize];
 	// There are no items or removed elements yet
 	numItems = 0;
@@ -227,7 +227,7 @@ void HashTable<Key, T>::grow(){
 
 	// Find the new prime size for the backing array
 	unsigned long oldArraySize = backingArraySize;
-	int i = 1;
+	int i = 0;
 	while (hashPrimes[i] <= oldArraySize)
 		i++;
 	backingArraySize = hashPrimes[i];

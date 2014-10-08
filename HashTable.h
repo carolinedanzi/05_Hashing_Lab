@@ -132,15 +132,22 @@ void HashTable<Key, T>::add(Key k, T x){
 	// over half the size of the backing array, grow the array
 	if (numItems + 1 > backingArraySize / 2)
 		grow();
+	// Otherwise, calculate the index of where the item
+	// should go and add it there by changing the 
+	// member variables for that HashRecord
 	else{
 		unsigned long index = calcIndex(k);
+		// Only if we are replacing an item marked for
+		// deletion do we subtract the number of removed items
 		if (backingArray[index].isDel == true){
 			numRemoved--;
 		}
+		// Change the variables for that HashRecord
 		backingArray[index].k = k;
 		backingArray[index].x = x;
 		backingArray[index].isNull = false;
 		backingArray[index].isDel = false;
+		// Increase the number of items
 		numItems++;
 	}
 

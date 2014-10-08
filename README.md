@@ -32,4 +32,4 @@ I feel that having find return a T* might be more useful. Currently, find return
 
 #### 3. What is one question that confused you about this exercise, or one piece of advice you would share with students next semester?
 
-I feel that I understand the logic behind a HashTable, but implementing one was difficult. I do not understand the difference between and the usefulness of keyExists, find, and calcIndex. I do not think I ever used find in my code.
+I feel that I understand the logic behind a HashTable, but implementing one was difficult. I do not fully understand the difference between and the usefulness of keyExists, find, and calcIndex. I do not think I ever used find in my code.  Also, I realize my grow() method is not working, but I am not sure why. I will continue to look at it.

@@ -28,8 +28,8 @@ Questions
 
 #### 2. I decided to use two function (`keyExists` and `find`) to enable lookup of keys. Another option would have been to have `find` return a `T*`, which would be `NULL` if an item with matching key is not found. Which design do you think would be better? Explain your reasoning. You may notice that the designers of C++ made the same decision I did when they designed http://www.cplusplus.com/reference/unordered_map/unordered_map/
 
-TODO
+I feel that having find return a T* might be more useful. Currently, find returns T, which represents the data (x) of the object. However, I do not feel that x is the most useful thing to return, because index calculations and referencing objects depends on the key, not the data. Returning a pointer could be more useful. Also, having find return NULL if the key does not exist would remove the need for the keyExists method.
 
 #### 3. What is one question that confused you about this exercise, or one piece of advice you would share with students next semester?
 
-TODO
+I feel that I understand the logic behind a HashTable, but implementing one was difficult. I do not understand the difference between and the usefulness of keyExists, find, and calcIndex. I do not think I ever used find in my code.

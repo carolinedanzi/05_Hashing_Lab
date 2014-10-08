@@ -22,8 +22,8 @@ Questions
 #### 1. Which of the above requirements work, and which do not? For each requirement, write a brief response.
 
 1. I do not think this requirement was met. All of these methods call on calcIndex, which has to cycle through slots to find an appropriate one. I do not feel this would take constant time.
-2. I think this was met. When add does not need to call grow, the most expensive part of the operation would be finding a spot to put the item (linear probing). On average, this should take O(1) time. It will take more time if there is a cluster of items where the additional element needs to go. In this scenario, it would take more time to find a place to put the new element.
-3. Grow definitely take linear time. It has to cycle through all the elements in the old array in order to copy them over to the new array, which takes O(n) time.
+2. I think this was met. When add does not need to call grow, the most expensive part of the operation would be finding a spot to put the item (linear probing). On average, this should take O(1) time. It will take more time if there is a cluster of items where the additional element needs to go. 
+3. Grow definitely takes linear time. It has to cycle through all the elements in the old array in order to copy them over to the new array, which takes O(n) time.
 4. I do not think I leaked any memory. I deleted the backing array in both the destructor and grow, and set backingArray equal to NULL in the destructor to avoid a dangling pointer.
 
 #### 2. I decided to use two function (`keyExists` and `find`) to enable lookup of keys. Another option would have been to have `find` return a `T*`, which would be `NULL` if an item with matching key is not found. Which design do you think would be better? Explain your reasoning. You may notice that the designers of C++ made the same decision I did when they designed http://www.cplusplus.com/reference/unordered_map/unordered_map/

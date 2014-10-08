@@ -179,7 +179,7 @@ void testGrow(){
 int main(){
   testCtor();
   testBasicMethods();
-  //testGrow();
+  testGrow();
 
   return 0;
 }

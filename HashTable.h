@@ -200,6 +200,23 @@ unsigned long HashTable<Key, T>::size(){
 
 template <class Key, class T>
 void HashTable<Key, T>::grow(){
-	//TODO
+	// Find the new prime size for the backing array
+	int i = 1;
+	while (hashPrimes[i] <= backingArraySize){
+		i++
+	}
+	backingArraySize = hashPrimes[i];
+
+	// Create a new, bigger array to store the items
+	HashRecord* newArray = new HashRecord[backingArraySize];
+
+	// Copy the items over into the new array
+	for (int i = 0; i < numItems; i++){
+
+	}
+
+	// Delete the old backingArray and use the new one
+	delete[] backingArray;
+	backingArray = newArray;
 }
 

@@ -91,7 +91,7 @@ HashTable<Key, T>::HashTable(){
 	// The size of the backing array should be prime
 	backingArraySize = hashPrimes[0];
 	backingArray = new HashRecord[backingArraySize];
-	// There are no items or isDel elements yet
+	// There are no items or removed elements yet
 	numItems = 0;
 	numRemoved = 0;
 }
@@ -106,16 +106,19 @@ HashTable<Key, T>::~HashTable() {
 // (or where it already is)
 template <class Key, class T>
 unsigned long HashTable<Key, T>::calcIndex(Key k){
+	// Calculate the index value of a key 
+	// based on a given hash function
 	unsigned long index = hash(k) % backingArraySize;
 
+	// If there is an element at that index,
+	// return the index if it has key k
 	while (backingArray[index].isNull == false){
-		// I think this should search through and
-		// either find where the item is and return
-		// that index, or return the next available index
 		if (backingArray[index].k == k)
 			return index;
 		index = (index + 1) % backingArraySize;
 	}
+	// If the HashRecord is null at that index,
+	// return the index 
 	return index;
 }
 
@@ -159,12 +162,12 @@ void HashTable<Key, T>::remove(Key k){
 
 template <class Key, class T>
 T HashTable<Key, T>::find(Key k){
-	if (keyExists(k) == false)
+	// If the key does not exist, throw an exception
+	if (!keyExists(k))
 		throw std::string("In find, the key does not exist");
 
 	// Otherwise, return the data for the item with that key
-	unsigned long index = calcIndex(k);
-	return backingArray[index].x;
+	return backingArray[calcIndex(k)].x;
 }
 
 template <class Key, class T>
@@ -172,8 +175,9 @@ bool HashTable<Key, T>::keyExists(Key k){
 	// Calc index will return the location of where
 	// the item should be (or should go)
 	unsigned long index = calcIndex(k);
-	// If the item is there, the key exists so return true
-	if (backingArray[index].k == k)
+	// If the item is there and has not been marked for deletion,
+	// the key exists so return true
+	if (backingArray[index].k == k && backingArray[index].isDel == false)
 		return true;
 	// Otherwise, the key does not exist
 	return false;

@@ -81,6 +81,10 @@ public:
 /*
 * During class I worked with Justin Reed and Brandon Wilson.
 * We discussed the logic behind keyExists, find, and calcIndex.
+* Otherwise, I worked alone.
+*
+* Caroline Danzi
+* October 7th, 2014
 */
 //You will need this so you can make a string to throw in
 // remove

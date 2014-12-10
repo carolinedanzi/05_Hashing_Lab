@@ -129,17 +129,24 @@ unsigned long HashTable<Key, T>::calcIndex(Key k){
 template <class Key, class T>
 void HashTable<Key, T>::add(Key k, T x){
 	// If the key already exists in the array,
-	// do not add the item again
-	if (keyExists(k))
+	// do not add the item again but change data
+	if (keyExists(k)){
+		unsigned long index = calcIndex(k);
+		backingArray[index].x = x;
 		return;
-	// If adding another item pushes the number of items
-	// over half the size of the backing array, grow the array
-	if (numItems + 1 > backingArraySize / 2)
-		grow();
-	// Otherwise, calculate the index of where the item
-	// should go and add it there by changing the 
-	// member variables for that HashRecord
+	}
 	else{
+		// Increase the number of items
+		numItems++;
+
+		// If adding another item pushes the number of items
+		// over half the size of the backing array, grow the array
+		if (numItems > backingArraySize / 2)
+			grow();
+
+		// Otherwise, calculate the index of where the item
+		// should go and add it there by changing the 
+		// member variables for that HashRecord
 		unsigned long index = calcIndex(k);
 		// Only if we are replacing an item marked for
 		// deletion do we subtract the number of removed items
@@ -151,10 +158,7 @@ void HashTable<Key, T>::add(Key k, T x){
 		backingArray[index].x = x;
 		backingArray[index].isNull = false;
 		backingArray[index].isDel = false;
-		// Increase the number of items
-		numItems++;
 	}
-
 }
 
 template <class Key, class T>
@@ -191,7 +195,7 @@ bool HashTable<Key, T>::keyExists(Key k){
 	unsigned long index = calcIndex(k);
 	// If the item is there and has not been marked for deletion,
 	// the key exists so return true
-	if (backingArray[index].k == k && backingArray[index].isDel == false)
+	if (backingArray[index].k == k && backingArray[index].isDel == false && backingArray[index].isNull == false)
 		return true;
 	// Otherwise, the key does not exist
 	return false;
@@ -214,6 +218,13 @@ void HashTable<Key, T>::grow(){
 	HashRecord* oldArray = backingArray;
 	// Create a new, bigger array to store the items
 	backingArray = new HashRecord[backingArraySize];
+
+	// In the next step we will add all the elements again,
+	// which will continue to increase numItems.  Therefore,
+	// before doing so we should reset it to zero; however,
+	// we need to increase numItems by one for the item that
+	// is getting added that caused the grow, so we start at 0.
+	numItems = 1;
 
 	// Copy the items over into the new array
 	for (unsigned int i = 0; i < oldArraySize; i++){

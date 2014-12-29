@@ -107,7 +107,7 @@ HashTable<Key, T>::~HashTable() {
 }
 
 // Goal:  Return an index where the item should go
-// (or where it already is)
+// (or where it already is in the table)
 template <class Key, class T>
 unsigned long HashTable<Key, T>::calcIndex(Key k){
 	// Calculate the index value of a key 
@@ -117,7 +117,7 @@ unsigned long HashTable<Key, T>::calcIndex(Key k){
 	// If there is an element at that index,
 	// return the index if it has key k
 	while (backingArray[index].isNull == false){
-		if (backingArray[index].k == k)
+		if (backingArray[index].k == k && backingArray[index].isDel == false)
 			return index;
 		index = (index + 1) % backingArraySize;
 	}
